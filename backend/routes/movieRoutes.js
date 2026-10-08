@@ -1,22 +1,14 @@
 const express = require("express");
-const { pool } = require("../config/db");
-
 const router = express.Router();
+const { getAllMovies, getMovieById, createMovie, updateMovie, deleteMovie } = require("../controllers/movieController.js");
 
-router.get("/", async (req, res) => {
-    try {
-        const result = await pool.query(
-            "SELECT * FROM movies ORDER BY release_date DESC"
-        );
 
-        res.json(result.rows);
-    } catch (error) {
-        console.error("Error fetching movies:", error.message);
 
-        res.status(500).json({
-            message: "Failed to fetch movies"
-        });
-    }
-});
+//MOVIES
+router.get("/movies", getAllMovies);
+router.get("/movies/:id", getMovieById)
+router.post("/movies/create", createMovie);
+router.put("/movies/update/:id", updateMovie);
+router.delete("/movies/delete/:id", deleteMovie);
 
 module.exports = router;
