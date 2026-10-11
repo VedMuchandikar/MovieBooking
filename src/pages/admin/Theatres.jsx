@@ -144,11 +144,15 @@ function SeatArchitect({ screen }) {
 }
 
 export default function Theatres() {
-  const { theatres, screens, saveTheatre, deleteTheatre, saveScreen, deleteScreen } = useDb()
+  const { theatres, screens, loadTheatres, saveTheatre, deleteTheatre, saveScreen, deleteScreen } = useDb()
   const [theatreId, setTheatreId] = useState(theatres[0]?.id)
   const [screenId, setScreenId] = useState(null)
   const [dlg, setDlg] = useState(null) // { kind, initial, id }
   const [del, setDel] = useState(null)
+
+  useEffect(() => {
+    loadTheatres?.()
+  }, [])
 
   const theatre = theatres.find((t) => t.id === theatreId) ?? theatres[0]
   const mine = screens.filter((s) => s.theatreId === theatre?.id)

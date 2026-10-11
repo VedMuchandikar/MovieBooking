@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { CalendarClock, IndianRupee, Ticket, Users } from 'lucide-react'
 import { PageHeader, StatCard } from '@/components/admin/PageHeader'
@@ -26,20 +26,36 @@ function ChartTip({ active, payload }) {
 export default function Dashboard() {
   const db = useDb()
   const [range, setRange] = useState('7')
+
+  useEffect(() => {
+    db.loadMovies?.()
+    db.loadTheatres?.()
+    db.loadShows?.()
+    db.loadBookings?.()
+    db.loadDashboardStats?.()
+  }, [])
+
+  const stats = db.dashboardStats
   const k = useMemo(() => kpis(db), [db.bookings, db.shows, db.totalUsers])
   const series = useMemo(() => revenueSeries(db, Number(range)), [db.bookings, db.history, range])
   const top = useMemo(() => topTitles(db), [db.bookings, db.shows, db.history, db.screens, db.movies])
   const total = series.reduce((n, d) => n + d.revenue, 0)
+
+  // Use live stats from PostgreSQL if loaded, otherwise fallback to local calculation
+  const displayBookings = stats ? stats.totalBookings : k.bookings
+  const displayRevenue = stats ? stats.totalRevenue : k.revenue
+  const displayUsers = stats ? stats.totalUsers : k.users
+  const displayActiveShows = stats ? stats.totalShows : k.activeShows
 
   return (
     <>
       <PageHeader eyebrow="Overview" title="Executive Dashboard" description="The multiplex at a glance: sales, screens in play and the titles carrying the house." />
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard icon={Ticket} label="Today's bookings" value={num(k.bookings)} hint="Confirmed, made today" />
-        <StatCard icon={IndianRupee} label="Today's revenue" value={money(k.revenue)} hint="Excludes cancellations" />
-        <StatCard icon={Users} label="Total users" value={num(k.users)} hint="Registered patrons" />
-        <StatCard icon={CalendarClock} label="Active shows today" value={num(k.activeShows)} hint="Across all screens" />
+        <StatCard icon={Ticket} label="Total bookings" value={num(displayBookings)} hint={stats ? "Live from database" : "Confirmed, made today"} />
+        <StatCard icon={IndianRupee} label="Total revenue" value={money(displayRevenue)} hint={stats ? "Verified payments" : "Excludes cancellations"} />
+        <StatCard icon={Users} label="Total users" value={num(displayUsers)} hint="Registered patrons" />
+        <StatCard icon={CalendarClock} label="Shows scheduled" value={num(displayActiveShows)} hint="Across all screens" />
       </div>
 
       <section className="glass rise mt-6 rounded-2xl p-5 sm:p-6">
