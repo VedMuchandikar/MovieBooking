@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { toast } from 'sonner'
 import { Calendar, MonitorPlay, Plus, Search, Trash2 } from 'lucide-react'
 import { PageHeader } from '@/components/admin/PageHeader'
@@ -25,10 +25,16 @@ function formatDate(iso) {
 }
 
 export default function Shows() {
-  const { shows, screens, cancelShow } = useDb()
+  const { shows, screens, loadShows, loadMovies, loadTheatres, cancelShow } = useDb()
   const [q, setQ] = useState('')
   const [creating, setCreating] = useState(false)
   const [cancelling, setCancelling] = useState(null)
+
+  useEffect(() => {
+    loadMovies?.()
+    loadTheatres?.()
+    loadShows?.()
+  }, [])
 
   const rows = useMemo(() => {
     return shows

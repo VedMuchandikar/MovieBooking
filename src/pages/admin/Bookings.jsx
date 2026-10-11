@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Search, User, CreditCard, Ticket, CheckCircle2, Clock, XCircle, ArrowRight } from 'lucide-react'
 import { PageHeader } from '@/components/admin/PageHeader'
 import { DataTable } from '@/components/admin/DataTable'
@@ -115,11 +115,16 @@ function BookingDrawer({ booking, open, onOpenChange, onCancelRequest }) {
 }
 
 export default function Bookings() {
-  const { bookings, shows, cancelBooking } = useDb()
+  const { bookings, shows, loadBookings, loadShows, cancelBooking } = useDb()
   const [q, setQ] = useState('')
   const [status, setStatus] = useState('all')
   const [selected, setSelected] = useState(null)
   const [cancelling, setCancelling] = useState(null)
+
+  useEffect(() => {
+    loadShows?.()
+    loadBookings?.()
+  }, [])
 
   const rows = useMemo(() => {
     return bookings
