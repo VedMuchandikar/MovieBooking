@@ -18,7 +18,7 @@ export function DataTable({ columns, rows, onRowClick, pageSize = 10, empty = 'N
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
-            <TableRow className="border-white/5 hover:bg-transparent">
+            <TableRow className="border-border/60 hover:bg-transparent">
               {columns.map((c) => (
                 <TableHead key={c.key} className={cn('label-caps h-11 whitespace-nowrap px-4', c.className)}>
                   {c.header}
@@ -31,7 +31,7 @@ export function DataTable({ columns, rows, onRowClick, pageSize = 10, empty = 'N
               <TableRow
                 key={rowKey(row)}
                 onClick={onRowClick ? () => onRowClick(row) : undefined}
-                className={cn('border-white/5 transition-colors', onRowClick && 'cursor-pointer hover:bg-gold/[0.04]')}
+                className={cn('border-border/60 transition-colors', onRowClick && 'cursor-pointer hover:bg-accent/60')}
               >
                 {columns.map((c) => (
                   <TableCell key={c.key} className={cn('px-4 py-3', c.className)}>
@@ -46,13 +46,13 @@ export function DataTable({ columns, rows, onRowClick, pageSize = 10, empty = 'N
 
       {rows.length === 0 && (
         <div className="flex flex-col items-center gap-2 py-14 text-sm text-muted-foreground">
-          <Inbox className="size-6 text-gold/50" />
+          <Inbox className="size-6 text-amber/60" />
           {empty}
         </div>
       )}
 
       {rows.length > pageSize && (
-        <div className="flex items-center justify-between border-t border-white/5 px-4 py-3 text-xs text-muted-foreground">
+        <div className="flex items-center justify-between border-t border-border px-4 py-3 text-xs text-muted-foreground">
           <span>
             {page * pageSize + 1}–{Math.min(rows.length, (page + 1) * pageSize)} of {rows.length}
           </span>

@@ -7,7 +7,7 @@ export function Poster({ src, title, className }) {
   const [failed, setFailed] = useState(null)
   const broken = !src || failed === src
   return broken ? (
-    <div className={cn('grid place-items-center bg-gradient-to-br from-[#2a2417] via-[#14110a] to-[#0d0f14] font-display text-gold/80', className)} aria-label={title}>
+    <div className={cn('grid place-items-center bg-[#ede7da] border border-border font-display text-primary/80 font-bold', className)} aria-label={title}>
       {initials(title) || '—'}
     </div>
   ) : (

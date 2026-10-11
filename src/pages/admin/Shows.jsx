@@ -70,7 +70,7 @@ export default function Shows() {
             header: 'Film',
             cell: (s) => (
               <div className="flex items-center gap-3">
-                <Poster src={s.movie.poster} title={s.movie.title} className="h-10 w-7 shrink-0 rounded-sm border border-white/10" />
+                <Poster src={s.movie.poster} title={s.movie.title} className="h-10 w-7 shrink-0 rounded-sm border border-border" />
                 <div>
                   <p className="font-medium text-sm">{s.movie.title}</p>
                   <p className="text-xs text-muted-foreground">{s.movie.duration} min</p>
@@ -106,7 +106,7 @@ export default function Shows() {
             cell: (s) => (
               <div className="flex gap-2 text-xs">
                 {s.prices && Object.entries(s.prices).map(([t, p]) => (
-                  <span key={t} className="rounded bg-white/[0.04] px-1.5 py-0.5" title={t}>
+                  <span key={t} className="rounded bg-secondary border border-border/50 px-1.5 py-0.5 font-medium" title={t}>
                     <span className="text-muted-foreground">{t[0].toUpperCase()}:</span> {p}
                   </span>
                 ))}

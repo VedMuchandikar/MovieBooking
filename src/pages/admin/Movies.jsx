@@ -21,7 +21,7 @@ import { useDb } from '@/store/db'
 const Genres = ({ list }) => (
   <div className="flex flex-wrap gap-1">
     {list.slice(0, 3).map((g) => (
-      <Badge key={g} variant="outline" className="border-white/10 text-[10px] font-medium text-muted-foreground">{g}</Badge>
+      <Badge key={g} variant="outline" className="border-border text-[10px] font-medium text-muted-foreground bg-secondary/50">{g}</Badge>
     ))}
   </div>
 )
@@ -100,7 +100,7 @@ export default function Movies() {
         </Select>
         <div className="ml-auto flex items-center gap-2">
           <span className="hidden text-xs text-muted-foreground sm:block">{moviesOnline ? 'Live API' : 'Demo data'} · {rows.length} films</span>
-          <div className="flex rounded-lg border border-white/10 p-0.5">
+          <div className="flex rounded-lg border border-border bg-card p-0.5 shadow-xs">
             {[['grid', LayoutGrid], ['table', List]].map(([v, Icon]) => (
               <Button key={v} variant={view === v ? 'secondary' : 'ghost'} size="icon" className="size-8" onClick={() => setView(v)} aria-label={`${v} view`}>
                 <Icon className="size-4" />
@@ -118,13 +118,13 @@ export default function Movies() {
         <>
           <div className="grid grid-cols-2 gap-5 md:grid-cols-3 xl:grid-cols-5">
             {rows.map((m) => (
-              <article key={m.id} className="rise glass group overflow-hidden rounded-2xl transition-all hover:-translate-y-1 hover:border-gold/30">
+              <article key={m.id} className="rise glass group overflow-hidden rounded-2xl transition-all hover:-translate-y-1 hover:border-amber/40 shadow-xs hover:shadow-card">
                 <div className="relative">
                   <Poster src={m.poster_url} title={m.title} className="aspect-[2/3] w-full text-4xl" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#08090c] via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                   <div className="absolute left-3 top-3"><StatusPill status={m.status} /></div>
                   {m.rating != null && (
-                    <span className="glass-strong absolute right-3 top-3 flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold text-gold">
+                    <span className="glass-strong absolute right-3 top-3 flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold text-amber shadow-xs">
                       <Star className="size-3 fill-current" /> {m.rating}
                     </span>
                   )}
@@ -156,7 +156,7 @@ export default function Movies() {
               header: 'Film',
               cell: (m) => (
                 <div className="flex items-center gap-3">
-                  <Poster src={m.poster_url} title={m.title} className="h-14 w-10 shrink-0 rounded-md border border-white/10 text-xs" />
+                  <Poster src={m.poster_url} title={m.title} className="h-14 w-10 shrink-0 rounded-md border border-border text-xs" />
                   <div><p className="font-medium">{m.title}</p><p className="text-xs text-muted-foreground">Released {m.release_date || '—'}</p></div>
                 </div>
               ),

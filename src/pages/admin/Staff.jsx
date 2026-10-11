@@ -99,7 +99,7 @@ export default function Staff() {
 
       <div className="mb-5 flex flex-wrap items-center gap-3">
         <div className="relative min-w-60 flex-1 sm:max-w-sm">
-          <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-gold/70" />
+          <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-amber/80" />
           <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search name or email..." className="pl-9" />
         </div>
       </div>
@@ -113,8 +113,8 @@ export default function Staff() {
             header: 'Staff Member',
             cell: (s) => (
               <div className="flex items-center gap-3">
-                <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-white/[0.04] border border-white/10">
-                  <span className="font-semibold text-xs text-muted-foreground">{s.name.substring(0, 2).toUpperCase()}</span>
+                <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-secondary border border-border">
+                  <span className="font-semibold text-xs text-foreground/80">{s.name.substring(0, 2).toUpperCase()}</span>
                 </div>
                 <div>
                   <p className="font-medium text-sm">{s.name}</p>
@@ -128,7 +128,7 @@ export default function Staff() {
             header: 'Role',
             cell: (s) => (
               <span className="flex items-center gap-1.5 text-sm">
-                {s.role === 'admin' ? <Shield className="size-3.5 text-gold" /> : <div className="size-3.5 rounded-sm bg-white/10" />}
+                {s.role === 'admin' ? <Shield className="size-3.5 text-amber" /> : <div className="size-3.5 rounded-sm bg-muted border border-border/50" />}
                 <span className="capitalize">{s.role}</span>
               </span>
             )

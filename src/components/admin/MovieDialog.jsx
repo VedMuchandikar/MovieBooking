@@ -101,7 +101,7 @@ function MovieForm({ movie, onClose }) {
         <Field label="Poster URL" className="sm:col-span-2" error={errors.poster_url}>
           <Input value={f.poster_url} onChange={set('poster_url')} placeholder="https://…" />
         </Field>
-        <label className="flex items-center justify-between gap-4 rounded-xl border border-white/[0.07] bg-white/[0.02] px-4 py-3 sm:col-span-2">
+        <label className="flex items-center justify-between gap-4 rounded-xl border border-border bg-card px-4 py-3 sm:col-span-2 shadow-xs">
           <span>
             <span className="block text-sm font-medium">Archived</span>
             <span className="text-xs text-muted-foreground">Hide from the catalogue without deleting</span>
@@ -112,7 +112,7 @@ function MovieForm({ movie, onClose }) {
 
       <div className="order-first md:order-none">
         <p className="label-caps mb-2">Live preview</p>
-        <Poster src={f.poster_url} title={f.title} className="aspect-[2/3] w-full max-w-52 rounded-xl border border-white/10 text-3xl shadow-[0_20px_50px_-20px_rgba(0,0,0,0.8)]" />
+        <Poster src={f.poster_url} title={f.title} className="aspect-[2/3] w-full max-w-52 rounded-xl border border-border text-3xl shadow-card" />
         <p className="mt-3 line-clamp-2 text-sm font-medium">{f.title || 'Untitled film'}</p>
       </div>
 

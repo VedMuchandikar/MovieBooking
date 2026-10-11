@@ -2,16 +2,16 @@ import { cn } from '@/lib/utils'
 import { seatId } from '@/lib/schedule'
 
 const KIND = {
-  available: 'border-white/10 bg-white/[0.07] text-white/40 hover:border-primary/60 hover:bg-primary/10 hover:text-primary',
-  booked: 'border-destructive/40 bg-destructive/15 text-destructive',
-  blocked: 'border-amber bg-amber text-[#080c14] shadow-[0_0_14px_-2px_rgba(245,158,11,0.7)] font-semibold',
-  disabled: 'border-dashed border-white/15 bg-[repeating-linear-gradient(45deg,transparent,transparent_3px,rgba(255,255,255,0.06)_3px,rgba(255,255,255,0.06)_6px)] text-white/20',
+  available: 'border-[#d4ccbd] bg-[#ffffff] text-[#3f3c37] hover:border-primary hover:bg-primary/10 hover:text-primary font-medium shadow-[0_1px_2px_rgba(30,20,10,0.05)]',
+  booked: 'border-[#a39c91] bg-[#e2ddd5] text-[#716c64]',
+  blocked: 'border-[#aa6522] bg-[#c2782f] text-white shadow-[0_2px_8px_rgba(194,120,47,0.35)] font-semibold',
+  disabled: 'border-dashed border-[#d8d0c2] bg-[#ede7da] text-[#a39c91]',
 }
 
 const TINT = {
-  regular: 'border-cyan/40 bg-cyan/10 text-cyan',
-  premium: 'border-purple/40 bg-purple/10 text-purple',
-  recliner: 'border-amber/40 bg-amber/10 text-amber',
+  regular: 'border-[#607d9b]/40 bg-[#607d9b]/10 text-[#607d9b]',
+  premium: 'border-[#8b7355]/40 bg-[#8b7355]/10 text-[#8b7355]',
+  recliner: 'border-[#c2782f]/40 bg-[#c2782f]/10 text-[#c2782f]',
 }
 
 /**
@@ -24,8 +24,8 @@ export function SeatGrid({ rows, cellKind, onSeatClick, rowEnd, titleFor, tierTi
     <div className="overflow-x-auto pb-2">
       <div className="mx-auto w-max min-w-full px-2">
         <div className="mx-auto mb-8 max-w-md">
-          <div className="h-1.5 rounded-full bg-gradient-to-r from-transparent via-cyan to-transparent opacity-80 shadow-[0_8px_30px_rgba(6,182,212,0.45)]" />
-          <p className="label-caps mt-3 text-center text-cyan/70">Cinema Screen</p>
+          <div className="h-1.5 rounded-full bg-gradient-to-r from-transparent via-[#222226] to-transparent opacity-60 shadow-[0_4px_16px_rgba(34,34,38,0.2)]" />
+          <p className="label-caps mt-3 text-center text-foreground/70">Cinema Screen</p>
         </div>
         <div className="flex flex-col items-center gap-1.5">
           {rows.map((row) => (
