@@ -1,143 +1,128 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
-import { Building2, MapPin, Pencil, Plus, Save, Sparkles, Trash2, Tv2, Undo2 } from 'lucide-react'
+import { Building2, MapPin, Pencil, Plus, Trash2, Tv2, Undo2 } from 'lucide-react'
 import { PageHeader } from '@/components/admin/PageHeader'
 import { ConfirmDialog } from '@/components/admin/ConfirmDialog'
-import { SeatGrid, SeatLegend } from '@/components/admin/SeatGrid'
+import { SeatGrid } from '@/components/admin/SeatGrid'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { cn } from '@/lib/utils'
-import { TIERS, buildLayout, capacity } from '@/lib/schedule'
+import { capacity, seatId } from '@/lib/schedule'
 import { useDb } from '@/store/db'
 
 const FORMATS = ['IMAX', 'Dolby Atmos', 'Standard']
 
-/** Small generic create/edit modal: fields = [{ key, label, type?, options? }]. */
-function EntityDialog({ open, onOpenChange, title, description, fields, initial, onSave }) {
-  const [v, setV] = useState(initial)
-  useEffect(() => { if (open) setV(initial) }, [open, initial])
+function EntityDialogForm({ title, description, fields, initial, onSave, onCancel }) {
+  const [v, setV] = useState(initial ?? {})
   const valid = fields.every((f) => String(v[f.key] ?? '').trim())
+  return (
+    <form
+      className="space-y-4"
+      onSubmit={(e) => {
+        e.preventDefault()
+        if (!valid) return
+        onSave(v)
+      }}
+    >
+      <DialogHeader>
+        <DialogTitle>{title}</DialogTitle>
+        <DialogDescription>{description}</DialogDescription>
+      </DialogHeader>
+      {fields.map((f) => (
+        <div key={f.key}>
+          <Label className="label-caps mb-2 block">{f.label}</Label>
+          {f.options ? (
+            <Select value={v[f.key]} onValueChange={(x) => setV({ ...v, [f.key]: x })}>
+              <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
+              <SelectContent>{f.options.map((o) => <SelectItem key={o} value={o}>{o}</SelectItem>)}</SelectContent>
+            </Select>
+          ) : (
+            <Input value={v[f.key] ?? ''} onChange={(e) => setV({ ...v, [f.key]: e.target.value })} autoFocus={f === fields[0]} />
+          )}
+        </div>
+      ))}
+      <DialogFooter>
+        <Button type="button" variant="ghost" onClick={onCancel}>Cancel</Button>
+        <Button type="submit" disabled={!valid}>Save</Button>
+      </DialogFooter>
+    </form>
+  )
+}
+
+function EntityDialog({ open, onOpenChange, title, description, fields, initial, onSave }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
-        </DialogHeader>
-        <form
-          className="space-y-4"
-          onSubmit={(e) => {
-            e.preventDefault()
-            if (!valid) return
-            onSave(v)
-            onOpenChange(false)
-          }}
-        >
-          {fields.map((f) => (
-            <div key={f.key}>
-              <Label className="label-caps mb-2 block">{f.label}</Label>
-              {f.options ? (
-                <Select value={v[f.key]} onValueChange={(x) => setV({ ...v, [f.key]: x })}>
-                  <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
-                  <SelectContent>{f.options.map((o) => <SelectItem key={o} value={o}>{o}</SelectItem>)}</SelectContent>
-                </Select>
-              ) : (
-                <Input value={v[f.key] ?? ''} onChange={(e) => setV({ ...v, [f.key]: e.target.value })} autoFocus={f === fields[0]} />
-              )}
-            </div>
-          ))}
-          <DialogFooter>
-            <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancel</Button>
-            <Button type="submit" disabled={!valid}>Save</Button>
-          </DialogFooter>
-        </form>
+        {open && (
+          <EntityDialogForm
+            key={JSON.stringify(initial)}
+            title={title}
+            description={description}
+            fields={fields}
+            initial={initial}
+            onSave={(v) => { onSave(v); onOpenChange(false) }}
+            onCancel={() => onOpenChange(false)}
+          />
+        )}
       </DialogContent>
     </Dialog>
   )
 }
 
-function SeatArchitect({ screen }) {
-  const saveLayout = useDb((s) => s.saveLayout)
-  const [draft, setDraft] = useState(screen.rows)
-  const [gen, setGen] = useState({ rows: screen.rows.length, perRow: screen.rows[0]?.seats.length ?? 10 })
-  const [brush, setBrush] = useState('aisle')
+function ScreenSeatingView({ screen }) {
+  const [selectedSeats, setSelectedSeats] = useState([])
+  const cap = capacity(screen)
 
-  useEffect(() => {
-    setDraft(screen.rows)
-    setGen({ rows: screen.rows.length, perRow: screen.rows[0]?.seats.length ?? 10 })
-  }, [screen.id, screen.rows])
-
-  const dirty = JSON.stringify(draft) !== JSON.stringify(screen.rows)
-  const cap = capacity({ rows: draft })
-  const counts = useMemo(() => Object.fromEntries(TIERS.map((t) => [t, draft.filter((r) => r.tier === t).reduce((n, r) => n + r.seats.filter((s) => s.state === 'ok').length, 0)])), [draft])
-
-  const generate = () => {
-    const rows = Math.min(26, Math.max(1, Number(gen.rows) || 1))
-    const perRow = Math.min(24, Math.max(2, Number(gen.perRow) || 2))
-    setGen({ rows, perRow })
-    setDraft(buildLayout(rows, perRow))
+  const handleSeatClick = (row, seat) => {
+    const sId = seatId(row, seat)
+    setSelectedSeats((prev) =>
+      prev.includes(sId) ? prev.filter((x) => x !== sId) : [...prev, sId]
+    )
   }
-  const paint = (row, seat) =>
-    setDraft((d) => d.map((r) => (r.label !== row.label ? r : { ...r, seats: r.seats.map((s) => (s.n === seat.n ? { ...s, state: s.state === brush ? 'ok' : brush } : s)) })))
-  const setTier = (label, tier) => setDraft((d) => d.map((r) => (r.label === label ? { ...r, tier } : r)))
 
   return (
     <section className="glass rise mt-6 rounded-2xl p-5 sm:p-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="label-caps text-primary">Seat architect</p>
-          <h3 className="mt-1 text-xl font-semibold">{screen.name} <span className="text-sm font-normal text-muted-foreground">· {screen.format}</span></h3>
+          <p className="label-caps text-primary">Screen Layout</p>
+          <h3 className="mt-1 text-xl font-semibold">
+            {screen.name}{' '}
+            <span className="text-sm font-normal text-muted-foreground">· {screen.format}</span>
+          </h3>
         </div>
-        <div className="flex gap-2">
-          <Button variant="ghost" disabled={!dirty} onClick={() => setDraft(screen.rows)}><Undo2 /> Discard</Button>
-          <Button disabled={!dirty} onClick={() => { saveLayout(screen.id, draft); toast.success(`${screen.name} layout saved (${cap} seats)`) }}><Save /> Save layout</Button>
-        </div>
-      </div>
-
-      <div className="mt-5 flex flex-wrap items-end gap-3 rounded-xl border border-border bg-card p-4 shadow-xs">
-        <div className="w-28"><Label className="label-caps mb-2 block">Rows</Label><Input type="number" min="1" max="26" value={gen.rows} onChange={(e) => setGen({ ...gen, rows: e.target.value })} /></div>
-        <div className="w-28"><Label className="label-caps mb-2 block">Seats / row</Label><Input type="number" min="2" max="24" value={gen.perRow} onChange={(e) => setGen({ ...gen, perRow: e.target.value })} /></div>
-        <Button variant="secondary" onClick={generate}><Sparkles /> Generate matrix</Button>
-        <p className="text-xs text-muted-foreground">Generates {Number(gen.rows) * Number(gen.perRow) || 0} positions, then tune tiers and gaps below.</p>
-        <div className="ml-auto">
-          <Label className="label-caps mb-2 block">Click a seat to</Label>
-          <Tabs value={brush} onValueChange={setBrush}>
-            <TabsList>
-              <TabsTrigger value="aisle">Mark aisle gap</TabsTrigger>
-              <TabsTrigger value="disabled">Disable seat</TabsTrigger>
-            </TabsList>
-          </Tabs>
-        </div>
-      </div>
-
-      <div className="mt-8">
-        <SeatGrid
-          rows={draft}
-          tierTint
-          cellKind={(_, s) => (s.state === 'ok' ? 'available' : s.state)}
-          onSeatClick={paint}
-          titleFor={(r, s) => `${r.label}${s.n} · ${r.tier} · click to ${s.state === brush ? 'restore' : brush === 'aisle' ? 'make an aisle' : 'disable'}`}
-          rowEnd={(r) => (
-            <Select value={r.tier} onValueChange={(t) => setTier(r.label, t)}>
-              <SelectTrigger size="sm" className="h-7 w-28 text-xs capitalize" aria-label={`Tier for row ${r.label}`}><SelectValue /></SelectTrigger>
-              <SelectContent>{TIERS.map((t) => <SelectItem key={t} value={t} className="capitalize">{t}</SelectItem>)}</SelectContent>
-            </Select>
+        <div className="flex items-center gap-2">
+          <Badge variant="outline" className="border-primary/30 text-primary">
+            {cap} sellable seats
+          </Badge>
+          <Badge variant="outline" className="border-border text-muted-foreground">
+            Auto-generated (8 × 10)
+          </Badge>
+          {selectedSeats.length > 0 && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setSelectedSeats([])}
+              className="text-xs text-muted-foreground hover:text-foreground"
+            >
+              <Undo2 className="size-3.5 mr-1" /> Clear selection ({selectedSeats.length})
+            </Button>
           )}
-        />
+        </div>
       </div>
 
-      <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-4">
-        <SeatLegend items={[['available', 'Seat'], ['disabled', 'Disabled / broken']]} />
-        <div className="flex flex-wrap items-center gap-2 text-xs">
-          <Badge variant="outline" className="border-primary/30 text-primary">{cap} sellable seats</Badge>
-          {TIERS.map((t) => <Badge key={t} variant="outline" className="border-border capitalize text-muted-foreground">{t} · {counts[t]}</Badge>)}
-          {dirty && <Badge className="bg-amber/15 text-amber">Unsaved changes</Badge>}
-        </div>
+      <div className="mt-6">
+        <SeatGrid
+          rows={screen.rows}
+          selectedSeats={selectedSeats}
+          onSeatClick={handleSeatClick}
+          promptText="Click any seat to inspect or test selection"
+          showPromptBanner={true}
+          showLegend={true}
+        />
       </div>
     </section>
   )
@@ -243,7 +228,7 @@ export default function Theatres() {
               </div>
             </div>
 
-            {screen && <SeatArchitect screen={screen} />}
+            {screen && <ScreenSeatingView screen={screen} />}
           </div>
         )}
       </div>
@@ -261,7 +246,7 @@ export default function Theatres() {
         open={dlg?.kind === 'screen'}
         onOpenChange={(o) => !o && setDlg(null)}
         title={dlg?.id ? 'Edit screen' : 'Add screen'}
-        description="New screens start with an 8 × 10 matrix you can reshape in the architect."
+        description="Seats are created automatically once the screen is created (8 rows × 10 seats across Regular, Premium, and Recliner)."
         fields={[{ key: 'name', label: 'Screen name' }, { key: 'format', label: 'Format', options: FORMATS }]}
         initial={dlg?.initial ?? {}}
         onSave={(v) => { const id = saveScreen({ theatreId: theatre.id, name: v.name.trim(), format: v.format }, dlg.id); setScreenId(id); toast.success('Screen saved') }}

@@ -52,12 +52,12 @@ const THEATRES = [
 
 // [id, theatreId, name, format, rows, perRow, regular/premium/recliner price]
 const SCREEN_DEFS = [
-  [11, 1, 'Imperial IMAX', 'IMAX', 8, 12, [340, 480, 720]],
-  [12, 1, 'Salon Noir', 'Standard', 6, 10, [220, 320, 480]],
-  [21, 2, 'Atmos Grand', 'Dolby Atmos', 7, 10, [280, 400, 600]],
-  [22, 2, 'Velvet Room', 'Standard', 6, 10, [220, 320, 480]],
-  [31, 3, 'Opus Atmos', 'Dolby Atmos', 7, 10, [280, 400, 600]],
-  [32, 3, 'Grand IMAX', 'IMAX', 8, 12, [340, 480, 720]],
+  [11, 1, 'Imperial IMAX', 'IMAX', 8, 10, [340, 480, 720]],
+  [12, 1, 'Salon Noir', 'Standard', 8, 10, [220, 320, 480]],
+  [21, 2, 'Atmos Grand', 'Dolby Atmos', 8, 10, [280, 400, 600]],
+  [22, 2, 'Velvet Room', 'Standard', 8, 10, [220, 320, 480]],
+  [31, 3, 'Opus Atmos', 'Dolby Atmos', 8, 10, [280, 400, 600]],
+  [32, 3, 'Grand IMAX', 'IMAX', 8, 10, [340, 480, 720]],
 ]
 
 export function seedState() {
