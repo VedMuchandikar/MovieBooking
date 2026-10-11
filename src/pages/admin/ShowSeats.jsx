@@ -59,8 +59,8 @@ export default function ShowSeats() {
       <div className="mt-8 flex flex-col items-center">
         {/* Screen visual */}
         <div className="mb-12 flex flex-col items-center">
-          <div className="h-1 w-full max-w-2xl rounded-full bg-gradient-to-r from-transparent via-white/40 to-transparent shadow-[0_0_20px_rgba(255,255,255,0.3)]"></div>
-          <p className="mt-2 text-[10px] font-medium tracking-widest text-muted-foreground uppercase flex items-center gap-2">
+          <div className="h-1.5 w-full max-w-2xl rounded-full bg-gradient-to-r from-transparent via-cyan to-transparent shadow-[0_0_20px_rgba(6,182,212,0.4)]"></div>
+          <p className="mt-2 text-[10px] font-medium tracking-widest text-cyan/70 uppercase flex items-center gap-2">
             <MonitorPlay className="size-3" /> Screen
           </p>
         </div>
@@ -90,13 +90,13 @@ export default function ShowSeats() {
                       className={cn(
                         "relative flex size-8 sm:size-9 items-center justify-center rounded-t-lg rounded-b-sm border text-[10px] font-medium transition-all duration-200",
                         // Available
-                        !isBooked && !isBlocked && !isBroken && "bg-white/[0.04] border-white/10 text-muted-foreground hover:bg-white/10 hover:border-white/20 hover:text-white cursor-pointer",
-                        // Admin Blocked (Gold)
-                        isBlocked && "bg-gold/20 border-gold/50 text-gold cursor-pointer shadow-[0_0_10px_rgba(212,175,55,0.2)]",
-                        // Booked (Burgundy)
-                        isBooked && "bg-burgundy/40 border-burgundy/60 text-[#f0a3b6] cursor-not-allowed opacity-80",
+                        !isBooked && !isBlocked && !isBroken && "bg-white/[0.04] border-white/10 text-muted-foreground hover:bg-white/10 hover:border-primary/40 hover:text-white cursor-pointer",
+                        // Admin Blocked (Amber)
+                        isBlocked && "bg-amber/20 border-amber/50 text-amber cursor-pointer shadow-[0_0_10px_rgba(245,158,11,0.25)]",
+                        // Booked (Destructive / Red)
+                        isBooked && "bg-destructive/20 border-destructive/40 text-destructive cursor-not-allowed opacity-80",
                         // Broken
-                        isBroken && "bg-crimson/10 border-crimson/30 text-crimson/50 cursor-not-allowed"
+                        isBroken && "bg-white/[0.02] border-dashed border-white/20 text-white/30 cursor-not-allowed"
                       )}
                       title={`${sName} - ${row.tier}`}
                     >
@@ -115,9 +115,9 @@ export default function ShowSeats() {
         {/* Legend */}
         <div className="mt-8 flex flex-wrap items-center justify-center gap-6 rounded-2xl border border-white/[0.05] bg-white/[0.01] px-6 py-4 text-xs font-medium text-muted-foreground">
           <div className="flex items-center gap-2"><div className="size-4 rounded-sm border border-white/10 bg-white/[0.04]" /> Available</div>
-          <div className="flex items-center gap-2"><div className="size-4 rounded-sm border border-burgundy/60 bg-burgundy/40" /> Booked</div>
-          <div className="flex items-center gap-2"><div className="flex size-4 items-center justify-center rounded-sm border border-gold/50 bg-gold/20"><Lock className="size-2.5 text-gold" /></div> Admin Hold</div>
-          <div className="flex items-center gap-2"><div className="size-4 rounded-sm border border-crimson/30 bg-crimson/10" /> Broken</div>
+          <div className="flex items-center gap-2"><div className="size-4 rounded-sm border border-destructive/40 bg-destructive/20 text-destructive" /> Booked</div>
+          <div className="flex items-center gap-2"><div className="flex size-4 items-center justify-center rounded-sm border border-amber/50 bg-amber/20"><Lock className="size-2.5 text-amber" /></div> Admin Hold</div>
+          <div className="flex items-center gap-2"><div className="size-4 rounded-sm border border-dashed border-white/20 bg-white/[0.02]" /> Broken</div>
         </div>
       </div>
     </>

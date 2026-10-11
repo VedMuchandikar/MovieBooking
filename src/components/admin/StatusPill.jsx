@@ -2,10 +2,12 @@ import { cn } from '@/lib/utils'
 
 const TONES = {
   emerald: 'bg-emerald/10 text-emerald border-emerald/25',
-  crimson: 'bg-crimson/10 text-crimson border-crimson/25',
-  gold: 'bg-gold/10 text-gold border-gold/25',
+  crimson: 'bg-primary/15 text-primary border-primary/30',
+  gold: 'bg-amber/15 text-amber border-amber/30',
+  cyan: 'bg-cyan/15 text-cyan border-cyan/30',
+  purple: 'bg-purple/15 text-purple border-purple/30',
   muted: 'bg-white/[0.04] text-muted-foreground border-white/10',
-  burgundy: 'bg-burgundy/30 text-[#f0a3b6] border-burgundy/60',
+  burgundy: 'bg-primary/20 text-[#fda4af] border-primary/35',
 }
 
 const MAP = {

@@ -9,6 +9,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { kpis, revenueSeries, topTitles } from '@/lib/analytics'
 import { money, moneyCompact, num } from '@/lib/format'
 import { useDb } from '@/store/db'
+import { colors } from '@/tokens'
 
 function ChartTip({ active, payload }) {
   if (!active || !payload?.length) return null
@@ -16,7 +17,7 @@ function ChartTip({ active, payload }) {
   return (
     <div className="glass-strong rounded-xl px-3.5 py-2.5 text-xs shadow-xl">
       <p className="label-caps mb-1">{p.label}</p>
-      <p className="font-display text-base text-gold">{money(p.revenue)}</p>
+      <p className="font-display text-base text-primary">{money(p.revenue)}</p>
       <p className="text-muted-foreground">{num(p.bookings)} bookings</p>
     </div>
   )
@@ -59,20 +60,20 @@ export default function Dashboard() {
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={series} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
               <defs>
-                <linearGradient id="goldFill" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#e6c687" stopOpacity={0.45} />
-                  <stop offset="100%" stopColor="#e6c687" stopOpacity={0} />
+                <linearGradient id="brandFill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor={colors.charts.revenueFill} stopOpacity={0.35} />
+                  <stop offset="100%" stopColor={colors.charts.revenueFill} stopOpacity={0} />
                 </linearGradient>
-                <linearGradient id="goldLine" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stopColor="#d4af37" />
-                  <stop offset="100%" stopColor="#f3dfb0" />
+                <linearGradient id="brandLine" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stopColor={colors.charts.revenueLineStart} />
+                  <stop offset="100%" stopColor={colors.charts.revenueLineEnd} />
                 </linearGradient>
               </defs>
-              <CartesianGrid vertical={false} stroke="rgba(255,255,255,0.06)" />
-              <XAxis dataKey="label" tickLine={false} axisLine={false} tick={{ fill: '#8b8e99', fontSize: 11 }} interval={range === '30' ? 3 : 0} />
-              <YAxis tickLine={false} axisLine={false} width={52} tick={{ fill: '#8b8e99', fontSize: 11 }} tickFormatter={moneyCompact} />
-              <Tooltip content={<ChartTip />} cursor={{ stroke: 'rgba(230,198,135,0.35)' }} />
-              <Area type="monotone" dataKey="revenue" stroke="url(#goldLine)" strokeWidth={2.5} fill="url(#goldFill)" activeDot={{ r: 5, fill: '#e6c687', stroke: '#08090c', strokeWidth: 2 }} />
+              <CartesianGrid vertical={false} stroke={colors.charts.gridStroke} />
+              <XAxis dataKey="label" tickLine={false} axisLine={false} tick={{ fill: colors.charts.axisTick, fontSize: 11 }} interval={range === '30' ? 3 : 0} />
+              <YAxis tickLine={false} axisLine={false} width={52} tick={{ fill: colors.charts.axisTick, fontSize: 11 }} tickFormatter={moneyCompact} />
+              <Tooltip content={<ChartTip />} cursor={{ stroke: colors.charts.cursorStroke }} />
+              <Area type="monotone" dataKey="revenue" stroke="url(#brandLine)" strokeWidth={2.5} fill="url(#brandFill)" activeDot={{ r: 5, fill: colors.charts.revenueLineStart, stroke: '#080c14', strokeWidth: 2 }} />
             </AreaChart>
           </ResponsiveContainer>
         </div>
@@ -81,7 +82,7 @@ export default function Dashboard() {
       <section className="mt-8">
         <div className="mb-3 flex items-end justify-between">
           <div>
-            <p className="label-caps text-gold/80">Box office</p>
+            <p className="label-caps text-primary">Box office</p>
             <h2 className="mt-1 text-xl font-semibold">Top 5 performing titles</h2>
           </div>
           <p className="text-xs text-muted-foreground">Last 30 days · by tickets sold</p>

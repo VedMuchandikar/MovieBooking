@@ -2,15 +2,16 @@ import { cn } from '@/lib/utils'
 import { seatId } from '@/lib/schedule'
 
 const KIND = {
-  available: 'border-white/10 bg-white/[0.07] text-white/40 hover:border-gold/60 hover:bg-gold/10 hover:text-gold',
-  booked: 'border-[#a8324f]/50 bg-burgundy text-[#f0a3b6]',
-  blocked: 'border-gold bg-gold text-[#15110a] shadow-[0_0_14px_-2px_rgba(230,198,135,0.7)]',
+  available: 'border-white/10 bg-white/[0.07] text-white/40 hover:border-primary/60 hover:bg-primary/10 hover:text-primary',
+  booked: 'border-destructive/40 bg-destructive/15 text-destructive',
+  blocked: 'border-amber bg-amber text-[#080c14] shadow-[0_0_14px_-2px_rgba(245,158,11,0.7)] font-semibold',
   disabled: 'border-dashed border-white/15 bg-[repeating-linear-gradient(45deg,transparent,transparent_3px,rgba(255,255,255,0.06)_3px,rgba(255,255,255,0.06)_6px)] text-white/20',
 }
 
 const TINT = {
-  premium: 'border-[#9fb4d8]/45 bg-[#9fb4d8]/[0.09]',
-  recliner: 'border-gold/55 bg-gold/[0.1]',
+  regular: 'border-cyan/40 bg-cyan/10 text-cyan',
+  premium: 'border-purple/40 bg-purple/10 text-purple',
+  recliner: 'border-amber/40 bg-amber/10 text-amber',
 }
 
 /**
@@ -23,8 +24,8 @@ export function SeatGrid({ rows, cellKind, onSeatClick, rowEnd, titleFor, tierTi
     <div className="overflow-x-auto pb-2">
       <div className="mx-auto w-max min-w-full px-2">
         <div className="mx-auto mb-8 max-w-md">
-          <div className="h-1.5 rounded-full bg-gradient-to-r from-transparent via-gold to-transparent opacity-80 shadow-[0_8px_30px_rgba(230,198,135,0.45)]" />
-          <p className="label-caps mt-3 text-center text-gold/60">Screen</p>
+          <div className="h-1.5 rounded-full bg-gradient-to-r from-transparent via-cyan to-transparent opacity-80 shadow-[0_8px_30px_rgba(6,182,212,0.45)]" />
+          <p className="label-caps mt-3 text-center text-cyan/70">Cinema Screen</p>
         </div>
         <div className="flex flex-col items-center gap-1.5">
           {rows.map((row) => (

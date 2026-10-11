@@ -90,7 +90,7 @@ function SeatArchitect({ screen }) {
     <section className="glass rise mt-6 rounded-2xl p-5 sm:p-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="label-caps text-gold/80">Seat architect</p>
+          <p className="label-caps text-primary">Seat architect</p>
           <h3 className="mt-1 text-xl font-semibold">{screen.name} <span className="text-sm font-normal text-muted-foreground">· {screen.format}</span></h3>
         </div>
         <div className="flex gap-2">
@@ -134,9 +134,9 @@ function SeatArchitect({ screen }) {
       <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-white/5 pt-4">
         <SeatLegend items={[['available', 'Seat'], ['disabled', 'Disabled / broken']]} />
         <div className="flex flex-wrap items-center gap-2 text-xs">
-          <Badge variant="outline" className="border-gold/30 text-gold">{cap} sellable seats</Badge>
+          <Badge variant="outline" className="border-primary/30 text-primary">{cap} sellable seats</Badge>
           {TIERS.map((t) => <Badge key={t} variant="outline" className="border-white/10 capitalize text-muted-foreground">{t} · {counts[t]}</Badge>)}
-          {dirty && <Badge className="bg-gold/15 text-gold">Unsaved changes</Badge>}
+          {dirty && <Badge className="bg-amber/15 text-amber">Unsaved changes</Badge>}
         </div>
       </div>
     </section>
