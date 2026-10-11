@@ -3,7 +3,7 @@
  * Connects directly to backend Express APIs (proxied via Vite to http://localhost:4000)
  */
 
-const BASE = '';
+const BASE = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
 
 const req = async (path, opts = {}) => {
   const url = path.startsWith('http') ? path : `${BASE}${path}`;

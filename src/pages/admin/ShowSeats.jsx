@@ -1,10 +1,10 @@
 import { useMemo } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { ArrowLeft, Lock, CheckCircle2, AlertTriangle, MonitorPlay } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { PageHeader } from '@/components/admin/PageHeader'
+import { SeatGrid } from '@/components/admin/SeatGrid'
 import { useDb } from '@/store/db'
-import { cn } from '@/lib/utils'
 import { seatId } from '@/lib/schedule'
 
 const pad = (n) => String(n).padStart(2, '0')
@@ -26,7 +26,7 @@ export default function ShowSeats() {
     if (!show) return new Set()
     const active = bookings.filter(b => b.showId === show.id && b.status === 'CONFIRMED')
     return new Set(active.flatMap(b => b.seats))
-  }, [shows, bookings, show])
+  }, [bookings, show])
 
   if (!show || !screen) {
     return (
@@ -37,9 +37,10 @@ export default function ShowSeats() {
     )
   }
 
-  const handleSeatClick = (seatName, state, isBooked) => {
-    if (state !== 'ok' || isBooked) return
-    toggleBlock(show.id, seatName)
+  const handleSeatClick = (row, seat) => {
+    const sName = seatId(row, seat)
+    if (seat.state !== 'ok' || bookedSeats.has(sName)) return
+    toggleBlock(show.id, sName)
   }
 
   return (
@@ -56,69 +57,17 @@ export default function ShowSeats() {
         description={`${formatDateTime(show.start)} • Click any available seat to toggle a maintenance block/admin hold.`} 
       />
 
-      <div className="mt-8 flex flex-col items-center">
-        {/* Screen visual */}
-        <div className="mb-12 flex flex-col items-center">
-          <div className="h-1.5 w-full max-w-2xl rounded-full bg-gradient-to-r from-transparent via-cyan to-transparent shadow-[0_0_20px_rgba(6,182,212,0.4)]"></div>
-          <p className="mt-2 text-[10px] font-medium tracking-widest text-cyan/70 uppercase flex items-center gap-2">
-            <MonitorPlay className="size-3" /> Screen
-          </p>
-        </div>
-
-        {/* Seat Matrix */}
-        <div className="flex flex-col gap-3 overflow-x-auto pb-8 w-full items-center">
-          {screen.rows.map((row) => (
-            <div key={row.label} className="flex items-center gap-6">
-              <div className="w-4 text-right text-xs font-semibold text-muted-foreground">{row.label}</div>
-              
-              <div className="flex gap-2">
-                {row.seats.map((seat) => {
-                  if (seat.state === 'aisle') {
-                    return <div key={`${row.label}${seat.n}`} className="w-6" /> // spacer
-                  }
-
-                  const sName = seatId(row, seat)
-                  const isBooked = bookedSeats.has(sName)
-                  const isBlocked = showBlocks.includes(sName)
-                  const isBroken = seat.state === 'broken'
-
-                  return (
-                    <button
-                      key={sName}
-                      disabled={isBooked || isBroken}
-                      onClick={() => handleSeatClick(sName, seat.state, isBooked)}
-                      className={cn(
-                        "relative flex size-8 sm:size-9 items-center justify-center rounded-t-lg rounded-b-sm border text-[10px] font-medium transition-all duration-200",
-                        // Available
-                        !isBooked && !isBlocked && !isBroken && "bg-[#ffffff] border-[#d4ccbd] text-[#3f3c37] hover:bg-primary/10 hover:border-primary hover:text-primary cursor-pointer shadow-[0_1px_2px_rgba(30,20,10,0.05)]",
-                        // Admin Blocked (Amber / Cognac)
-                        isBlocked && "bg-[#c2782f] border-[#aa6522] text-white cursor-pointer shadow-[0_2px_8px_rgba(194,120,47,0.35)]",
-                        // Booked (Muted Stone)
-                        isBooked && "bg-[#e2ddd5] border-[#a39c91] text-[#716c64] cursor-not-allowed",
-                        // Broken
-                        isBroken && "bg-[#ede7da] border-dashed border-[#d8d0c2] text-[#a39c91] cursor-not-allowed"
-                      )}
-                      title={`${sName} - ${row.tier}`}
-                    >
-                      {isBlocked && <Lock className="absolute size-3.5 opacity-90 text-white" />}
-                      {!isBlocked && sName}
-                    </button>
-                  )
-                })}
-              </div>
-              
-              <div className="w-4 text-left text-xs font-semibold text-muted-foreground">{row.label}</div>
-            </div>
-          ))}
-        </div>
-
-        {/* Legend */}
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-6 rounded-2xl border border-border bg-card px-6 py-4 text-xs font-medium text-muted-foreground shadow-xs">
-          <div className="flex items-center gap-2"><div className="size-4 rounded-sm border border-[#d4ccbd] bg-[#ffffff] shadow-[0_1px_2px_rgba(30,20,10,0.05)]" /> Available</div>
-          <div className="flex items-center gap-2"><div className="size-4 rounded-sm border border-[#a39c91] bg-[#e2ddd5]" /> Booked</div>
-          <div className="flex items-center gap-2"><div className="flex size-4 items-center justify-center rounded-sm border border-[#aa6522] bg-[#c2782f] shadow-xs"><Lock className="size-2.5 text-white" /></div> Admin Hold</div>
-          <div className="flex items-center gap-2"><div className="size-4 rounded-sm border border-dashed border-[#d8d0c2] bg-[#ede7da]" /> Broken</div>
-        </div>
+      <div className="glass rise mt-8 rounded-2xl p-5 sm:p-6">
+        <SeatGrid
+          rows={screen.rows}
+          bookedSeats={bookedSeats}
+          blockedSeats={showBlocks}
+          pricing={show.prices}
+          onSeatClick={handleSeatClick}
+          promptText="Click any available seat to toggle maintenance block / admin hold"
+          showPromptBanner={true}
+          showLegend={true}
+        />
       </div>
     </>
   )

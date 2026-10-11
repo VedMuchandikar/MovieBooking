@@ -1,44 +1,29 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "services": {
-    "app": {
-      "root": ".",
-      "framework": "vite"
-    },
-    "backend": {
-      "root": "backend",
-      "framework": "express",
-      "entrypoint": "server.js"
-    },
-    "frontend": {
-      "root": "frontend",
-      "framework": "vite"
-    }
-  },
   "rewrites": [
     {
       "source": "/movies(.*)",
-      "destination": {
-        "service": "backend"
-      }
+      "destination": "https://avalanche-task.onrender.com/movies$1"
+    },
+    {
+      "source": "/theatres(.*)",
+      "destination": "https://avalanche-task.onrender.com/theatres$1"
+    },
+    {
+      "source": "/screens(.*)",
+      "destination": "https://avalanche-task.onrender.com/screens$1"
+    },
+    {
+      "source": "/seats(.*)",
+      "destination": "https://avalanche-task.onrender.com/seats$1"
     },
     {
       "source": "/api/(.*)",
-      "destination": {
-        "service": "backend"
-      }
-    },
-    {
-      "source": "/customer/(.*)",
-      "destination": {
-        "service": "frontend"
-      }
+      "destination": "https://avalanche-task.onrender.com/api/$1"
     },
     {
       "source": "/(.*)",
-      "destination": {
-        "service": "app"
-      }
+      "destination": "/index.html"
     }
   ]
 }

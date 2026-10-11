@@ -97,19 +97,39 @@ export const useDb = create(
           }
 
           if (Array.isArray(scRows) && scRows.length > 0) {
-            set((s) => ({
-              screens: scRows.map((sc) => {
-                const existing = s.screens.find((x) => x.id === Number(sc.id))
+            const screensWithSeats = await Promise.all(
+              scRows.map(async (sc) => {
+                let rows = null
+                try {
+                  const seatsList = await screensApi.getSeats(sc.id)
+                  if (Array.isArray(seatsList) && seatsList.length > 0) {
+                    const rowMap = new Map()
+                    for (const s of seatsList) {
+                      const rLabel = s.row_label
+                      if (!rowMap.has(rLabel)) {
+                        rowMap.set(rLabel, { label: rLabel, tier: s.tier || 'regular', seats: [] })
+                      }
+                      rowMap.get(rLabel).seats.push({
+                        n: Number(s.seat_number),
+                        state: 'ok',
+                        id: s.id,
+                      })
+                    }
+                    rows = Array.from(rowMap.values()).sort((a, b) => a.label.localeCompare(b.label))
+                  }
+                } catch {
+                  // Fallback to default layout
+                }
                 return {
                   id: Number(sc.id),
                   theatreId: Number(sc.theatre_id),
                   name: sc.name,
                   format: sc.format || 'Standard',
-                  rows: existing?.rows || buildLayout(8, 10),
+                  rows: rows || buildLayout(8, 10),
                 }
-              }),
-              screensOnline: true,
-            }))
+              })
+            )
+            set({ screens: screensWithSeats, screensOnline: true })
           }
         } catch (err) {
           console.warn('Theatres/Screens load failed:', err.message)

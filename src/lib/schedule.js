@@ -37,13 +37,23 @@ export const seatId = (row, seat) => `${row.label}${seat.n}`
 export const capacity = (screen) =>
   screen ? screen.rows.reduce((n, r) => n + r.seats.filter((s) => s.state === 'ok').length, 0) : 0
 
-/** rows x perRow grid; first rows regular, middle premium, back rows recliner. One aisle gap mid-row. */
-export function buildLayout(rowCount, perRow, tiers) {
+/** rows x perRow grid; matches backend automatic layout: A-D regular, E-F premium, G-H recliner. */
+export function buildLayout(rowCount = 8, perRow = 10, tiers) {
   const labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-  const gap = Math.floor(perRow / 2)
-  return Array.from({ length: rowCount }, (_, i) => ({
-    label: labels[i],
-    tier: tiers?.[i] ?? (i >= rowCount - 2 ? 'recliner' : i >= Math.ceil(rowCount / 2) - 1 ? 'premium' : 'regular'),
-    seats: Array.from({ length: perRow }, (_, j) => ({ n: j + 1, state: j + 1 === gap && perRow > 4 ? 'aisle' : 'ok' })),
-  }))
+  return Array.from({ length: rowCount }, (_, i) => {
+    let tier = 'regular'
+    if (tiers && tiers[i]) {
+      tier = tiers[i]
+    } else if (rowCount === 8) {
+      tier = i < 4 ? 'regular' : i < 6 ? 'premium' : 'recliner'
+    } else {
+      tier = i >= rowCount - 2 ? 'recliner' : i >= Math.ceil(rowCount / 2) - 1 ? 'premium' : 'regular'
+    }
+    return {
+      label: labels[i],
+      tier,
+      seats: Array.from({ length: perRow }, (_, j) => ({ n: j + 1, state: 'ok' })),
+    }
+  })
 }
+
