@@ -9,8 +9,14 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/", movieRoutes);
+app.use("/api", movieRoutes);
 
 app.get("/", (req, res) => {
+    res.json({
+        message: "Movie Booking Backend is running!"
+    });
+});
+app.get("/api", (req, res) => {
     res.json({
         message: "Movie Booking Backend is running!"
     });
@@ -18,11 +24,14 @@ app.get("/", (req, res) => {
 
 
 
-
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 connectDB();
 
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== "production" || !process.env.VERCEL) {
+    app.listen(PORT, () => {
+        console.log(`Server running on http://localhost:${PORT}`);
+    });
+}
+
+module.exports = app;

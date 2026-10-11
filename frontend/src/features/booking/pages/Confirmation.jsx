@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { QRCodeSVG } from 'qrcode.react';
+import QRCode from 'qrcode';
 import './Confirmation.css';
 
 export default function Confirmation() {
   const { id } = useParams();
+  const [qrUrl, setQrUrl] = useState('');
+
+  useEffect(() => {
+    QRCode.toDataURL(`ticket-${id || 'BK123456'}`, { width: 120, margin: 1 })
+      .then(setQrUrl)
+      .catch(console.error);
+  }, [id]);
 
   return (
     <div className="confirmation-container">
@@ -26,7 +33,11 @@ export default function Confirmation() {
           
           <div className="ticket-bottom">
             <div className="qr-container">
-              <QRCodeSVG value={`ticket-${id || 'BK123456'}`} size={120} bgColor="transparent" fgColor="#F5F5F5" />
+              {qrUrl ? (
+                <img src={qrUrl} alt="Ticket QR" style={{ width: 120, height: 120, borderRadius: 8 }} />
+              ) : (
+                <div style={{ width: 120, height: 120 }} />
+              )}
             </div>
             <p className="booking-id">ID: {id || 'BK123456'}</p>
           </div>
