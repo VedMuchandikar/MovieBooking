@@ -99,7 +99,7 @@ function SeatArchitect({ screen }) {
         </div>
       </div>
 
-      <div className="mt-5 flex flex-wrap items-end gap-3 rounded-xl border border-white/[0.07] bg-white/[0.02] p-4">
+      <div className="mt-5 flex flex-wrap items-end gap-3 rounded-xl border border-border bg-card p-4 shadow-xs">
         <div className="w-28"><Label className="label-caps mb-2 block">Rows</Label><Input type="number" min="1" max="26" value={gen.rows} onChange={(e) => setGen({ ...gen, rows: e.target.value })} /></div>
         <div className="w-28"><Label className="label-caps mb-2 block">Seats / row</Label><Input type="number" min="2" max="24" value={gen.perRow} onChange={(e) => setGen({ ...gen, perRow: e.target.value })} /></div>
         <Button variant="secondary" onClick={generate}><Sparkles /> Generate matrix</Button>
@@ -131,11 +131,11 @@ function SeatArchitect({ screen }) {
         />
       </div>
 
-      <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-white/5 pt-4">
+      <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-4">
         <SeatLegend items={[['available', 'Seat'], ['disabled', 'Disabled / broken']]} />
         <div className="flex flex-wrap items-center gap-2 text-xs">
           <Badge variant="outline" className="border-primary/30 text-primary">{cap} sellable seats</Badge>
-          {TIERS.map((t) => <Badge key={t} variant="outline" className="border-white/10 capitalize text-muted-foreground">{t} · {counts[t]}</Badge>)}
+          {TIERS.map((t) => <Badge key={t} variant="outline" className="border-border capitalize text-muted-foreground">{t} · {counts[t]}</Badge>)}
           {dirty && <Badge className="bg-amber/15 text-amber">Unsaved changes</Badge>}
         </div>
       </div>
@@ -219,10 +219,10 @@ export default function Theatres() {
                     tabIndex={0}
                     onClick={() => setScreenId(s.id)}
                     onKeyDown={(e) => e.key === 'Enter' && setScreenId(s.id)}
-                    className={cn('group cursor-pointer rounded-xl border border-white/[0.07] bg-white/[0.02] p-4 transition-all hover:border-gold/30', s.id === screen?.id && 'border-gold/50 bg-gold/[0.06]')}
+                    className={cn('group cursor-pointer rounded-xl border border-border bg-card p-4 transition-all hover:border-amber/40 shadow-xs', s.id === screen?.id && 'border-amber/60 bg-amber/[0.08]')}
                   >
                     <div className="flex items-start justify-between">
-                      <Tv2 className="size-4 text-gold/80" />
+                      <Tv2 className="size-4 text-amber" />
                       <div className="flex opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
                         <Button variant="ghost" size="icon" className="size-7" onClick={(e) => { e.stopPropagation(); setDlg({ kind: 'screen', id: s.id, initial: s }) }} aria-label={`Edit ${s.name}`}><Pencil className="size-3.5" /></Button>
                         <Button variant="ghost" size="icon" className="size-7 text-crimson hover:text-crimson" onClick={(e) => { e.stopPropagation(); setDel({ kind: 'screen', item: s }) }} aria-label={`Delete ${s.name}`}><Trash2 className="size-3.5" /></Button>
@@ -230,7 +230,7 @@ export default function Theatres() {
                     </div>
                     <p className="mt-3 font-medium">{s.name}</p>
                     <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
-                      <Badge variant="outline" className="border-gold/30 text-gold">{s.format}</Badge>
+                      <Badge variant="outline" className="border-amber/30 text-amber">{s.format}</Badge>
                       {capacity(s)} seats
                     </div>
                   </div>

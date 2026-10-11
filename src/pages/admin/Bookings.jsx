@@ -41,7 +41,7 @@ function BookingDrawer({ booking, open, onOpenChange, onCancelRequest }) {
             </div>
           </div>
 
-          <div className="space-y-3 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
+          <div className="space-y-3 rounded-xl border border-border bg-card p-4 shadow-xs">
             <h3 className="label-caps flex items-center gap-2"><User className="size-4" /> Customer</h3>
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
@@ -59,7 +59,7 @@ function BookingDrawer({ booking, open, onOpenChange, onCancelRequest }) {
             </div>
           </div>
 
-          <div className="space-y-3 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
+          <div className="space-y-3 rounded-xl border border-border bg-card p-4 shadow-xs">
             <h3 className="label-caps flex items-center gap-2"><Ticket className="size-4" /> Show & Seats</h3>
             <div className="text-sm space-y-4">
               <div>
@@ -69,7 +69,7 @@ function BookingDrawer({ booking, open, onOpenChange, onCancelRequest }) {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-muted-foreground">Seats ({booking.seats.length})</p>
-                  <p className="font-medium text-gold">{booking.seats.join(', ')}</p>
+                  <p className="font-medium text-amber font-semibold">{booking.seats.join(', ')}</p>
                 </div>
                 <div>
                   <p className="text-muted-foreground">Check-in Status</p>
@@ -86,7 +86,7 @@ function BookingDrawer({ booking, open, onOpenChange, onCancelRequest }) {
             )}
           </div>
 
-          <div className="space-y-3 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
+          <div className="space-y-3 rounded-xl border border-border bg-card p-4 shadow-xs">
             <h3 className="label-caps flex items-center gap-2"><CreditCard className="size-4" /> Payment</h3>
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
@@ -101,7 +101,7 @@ function BookingDrawer({ booking, open, onOpenChange, onCancelRequest }) {
           </div>
         </div>
 
-        <SheetFooter className="mt-auto sm:justify-between border-t border-white/[0.06] pt-4">
+        <SheetFooter className="mt-auto sm:justify-between border-t border-border pt-4">
           <Button variant="ghost" onClick={() => onOpenChange(false)}>Close</Button>
           {booking.status === 'CONFIRMED' && (
             <Button variant="destructive" onClick={() => onCancelRequest(booking)}>

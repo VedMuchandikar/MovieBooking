@@ -27,12 +27,12 @@ export const NAV = [
 export function Brand() {
   return (
     <div className="flex items-center gap-3">
-      <div className="grid size-10 place-items-center rounded-xl bg-gradient-to-br from-[#f84464] to-[#d82d4b] font-display text-lg text-white shadow-[0_0_20px_rgba(248,68,100,0.35)]">
+      <div className="grid size-10 place-items-center rounded-xl bg-primary border border-primary/40 font-display text-lg text-white shadow-[0_2px_8px_rgba(34,34,38,0.25)]">
         C
       </div>
       <div className="leading-tight">
-        <p className="brand-text font-display text-lg font-semibold tracking-wide">CINESHOW</p>
-        <p className="label-caps text-[10px] tracking-[0.25em] text-muted-foreground">Ops · Admin</p>
+        <p className="brand-text font-display text-lg font-bold tracking-wide">CINESHOW</p>
+        <p className="label-caps text-[10px] tracking-[0.22em] text-muted-foreground">Ops · Admin</p>
       </div>
     </div>
   )
@@ -55,14 +55,14 @@ export function NavContent({ onNavigate }) {
                     onClick={onNavigate}
                     className={({ isActive }) =>
                       cn(
-                        'group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-muted-foreground transition-colors hover:bg-white/[0.04] hover:text-foreground',
-                        isActive && 'bg-primary/10 text-primary hover:bg-primary/10 hover:text-primary font-medium',
+                        'group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground',
+                        isActive && 'bg-primary text-white hover:bg-primary hover:text-white font-medium shadow-xs',
                       )
                     }
                   >
                     {({ isActive }) => (
                       <>
-                        {isActive && <span className="absolute inset-y-2 -left-3 w-0.5 rounded-full bg-primary shadow-[0_0_12px_rgba(248,68,100,0.8)]" />}
+                        {isActive && <span className="absolute inset-y-2 -left-3 w-0.5 rounded-full bg-amber shadow-[0_0_8px_rgba(194,120,47,0.7)]" />}
                         <Icon className="size-4 shrink-0" />
                         {label}
                       </>
@@ -74,10 +74,10 @@ export function NavContent({ onNavigate }) {
           </div>
         ))}
       </nav>
-      <div className="m-3 rounded-xl border border-white/5 bg-white/[0.02] p-3 text-xs">
+      <div className="m-3 rounded-xl border border-border bg-card p-3 text-xs shadow-xs">
         <div className="flex items-center gap-2">
           <span className={cn('size-2 rounded-full', online ? 'bg-emerald shadow-[0_0_8px_var(--color-emerald)]' : 'bg-amber')} />
-          <span className="font-medium">{online ? 'Films API · live' : 'Films API · offline'}</span>
+          <span className="font-medium text-foreground">{online ? 'Films API · live' : 'Films API · offline'}</span>
         </div>
         <p className="mt-1 text-muted-foreground">{online ? 'Catalogue syncs with Postgres.' : 'Showing demo catalogue.'}</p>
       </div>

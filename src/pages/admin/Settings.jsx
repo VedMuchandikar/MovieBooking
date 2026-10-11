@@ -37,11 +37,11 @@ export default function Settings() {
         
         {/* Booking Rules */}
         <section className="space-y-4">
-          <div className="flex items-center gap-2 border-b border-white/[0.06] pb-2">
-            <Ticket className="size-4 text-gold" />
+          <div className="flex items-center gap-2 border-b border-border pb-2">
+            <Ticket className="size-4 text-amber" />
             <h2 className="text-lg font-medium">Booking Rules</h2>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 p-4 rounded-xl border border-white/[0.04] bg-white/[0.01]">
+          <div className="grid gap-6 sm:grid-cols-2 p-4 rounded-xl border border-border bg-card shadow-xs">
             <div>
               <Label className="label-caps mb-2 block">Max Tickets per Transaction</Label>
               <Input type="number" min="1" max="20" value={f.maxTickets} onChange={e => setF({...f, maxTickets: e.target.value})} />
@@ -57,11 +57,11 @@ export default function Settings() {
 
         {/* Gate Entry Bounds */}
         <section className="space-y-4">
-          <div className="flex items-center gap-2 border-b border-white/[0.06] pb-2">
-            <Timer className="size-4 text-gold" />
+          <div className="flex items-center gap-2 border-b border-border pb-2">
+            <Timer className="size-4 text-amber" />
             <h2 className="text-lg font-medium">Gate Entry Windows</h2>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 p-4 rounded-xl border border-white/[0.04] bg-white/[0.01]">
+          <div className="grid gap-6 sm:grid-cols-2 p-4 rounded-xl border border-border bg-card shadow-xs">
             <div>
               <Label className="label-caps mb-2 block">Scan Valid Before Show (mins)</Label>
               <Input type="number" min="0" value={f.entryBeforeMin} onChange={e => setF({...f, entryBeforeMin: e.target.value})} />

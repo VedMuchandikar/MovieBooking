@@ -90,17 +90,17 @@ export default function ShowSeats() {
                       className={cn(
                         "relative flex size-8 sm:size-9 items-center justify-center rounded-t-lg rounded-b-sm border text-[10px] font-medium transition-all duration-200",
                         // Available
-                        !isBooked && !isBlocked && !isBroken && "bg-white/[0.04] border-white/10 text-muted-foreground hover:bg-white/10 hover:border-primary/40 hover:text-white cursor-pointer",
-                        // Admin Blocked (Amber)
-                        isBlocked && "bg-amber/20 border-amber/50 text-amber cursor-pointer shadow-[0_0_10px_rgba(245,158,11,0.25)]",
-                        // Booked (Destructive / Red)
-                        isBooked && "bg-destructive/20 border-destructive/40 text-destructive cursor-not-allowed opacity-80",
+                        !isBooked && !isBlocked && !isBroken && "bg-[#ffffff] border-[#d4ccbd] text-[#3f3c37] hover:bg-primary/10 hover:border-primary hover:text-primary cursor-pointer shadow-[0_1px_2px_rgba(30,20,10,0.05)]",
+                        // Admin Blocked (Amber / Cognac)
+                        isBlocked && "bg-[#c2782f] border-[#aa6522] text-white cursor-pointer shadow-[0_2px_8px_rgba(194,120,47,0.35)]",
+                        // Booked (Muted Stone)
+                        isBooked && "bg-[#e2ddd5] border-[#a39c91] text-[#716c64] cursor-not-allowed",
                         // Broken
-                        isBroken && "bg-white/[0.02] border-dashed border-white/20 text-white/30 cursor-not-allowed"
+                        isBroken && "bg-[#ede7da] border-dashed border-[#d8d0c2] text-[#a39c91] cursor-not-allowed"
                       )}
                       title={`${sName} - ${row.tier}`}
                     >
-                      {isBlocked && <Lock className="absolute size-3.5 opacity-60" />}
+                      {isBlocked && <Lock className="absolute size-3.5 opacity-90 text-white" />}
                       {!isBlocked && sName}
                     </button>
                   )
@@ -113,11 +113,11 @@ export default function ShowSeats() {
         </div>
 
         {/* Legend */}
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-6 rounded-2xl border border-white/[0.05] bg-white/[0.01] px-6 py-4 text-xs font-medium text-muted-foreground">
-          <div className="flex items-center gap-2"><div className="size-4 rounded-sm border border-white/10 bg-white/[0.04]" /> Available</div>
-          <div className="flex items-center gap-2"><div className="size-4 rounded-sm border border-destructive/40 bg-destructive/20 text-destructive" /> Booked</div>
-          <div className="flex items-center gap-2"><div className="flex size-4 items-center justify-center rounded-sm border border-amber/50 bg-amber/20"><Lock className="size-2.5 text-amber" /></div> Admin Hold</div>
-          <div className="flex items-center gap-2"><div className="size-4 rounded-sm border border-dashed border-white/20 bg-white/[0.02]" /> Broken</div>
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-6 rounded-2xl border border-border bg-card px-6 py-4 text-xs font-medium text-muted-foreground shadow-xs">
+          <div className="flex items-center gap-2"><div className="size-4 rounded-sm border border-[#d4ccbd] bg-[#ffffff] shadow-[0_1px_2px_rgba(30,20,10,0.05)]" /> Available</div>
+          <div className="flex items-center gap-2"><div className="size-4 rounded-sm border border-[#a39c91] bg-[#e2ddd5]" /> Booked</div>
+          <div className="flex items-center gap-2"><div className="flex size-4 items-center justify-center rounded-sm border border-[#aa6522] bg-[#c2782f] shadow-xs"><Lock className="size-2.5 text-white" /></div> Admin Hold</div>
+          <div className="flex items-center gap-2"><div className="size-4 rounded-sm border border-dashed border-[#d8d0c2] bg-[#ede7da]" /> Broken</div>
         </div>
       </div>
     </>

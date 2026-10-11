@@ -1,119 +1,119 @@
 /* ==========================================================================
-   CINESHOW DESIGN TOKENS
-   Centralized design system tokens for easy theme & typography customization.
-   Edit values here to customize colors, fonts, and styling across the admin app.
+   CINESHOW DESIGN TOKENS — NORDIC ARTHOUSE CINEMA
+   Bio Fågel Blå Stockholm 1926 Aesthetic
+   Warm Linen & Cream Canvas, Deep Ink Charcoal & Cognac Amber Accents.
    ========================================================================== */
 
 :root {
   /* ------------------------------------------------------------------------
      1. TYPOGRAPHY TOKENS
      ------------------------------------------------------------------------ */
-  --font-display: 'Righteous', 'Poppins', sans-serif;
-  --font-sans: 'Poppins', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Plus Jakarta Sans', 'Poppins', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
   /* ------------------------------------------------------------------------
      2. BRAND IDENTITY & ACCENT COLORS
      ------------------------------------------------------------------------ */
-  /* BookMyShow Iconic Crimson Palette */
-  --color-primary: #f84464;
-  --color-primary-hover: #e03150;
-  --color-primary-dark: #d82d4b;
+  /* Deep Ink Charcoal Brand */
+  --color-primary: #222226;
+  --color-primary-hover: #111113;
+  --color-primary-dark: #050505;
   --color-primary-foreground: #ffffff;
-  --color-primary-glow: rgba(248, 68, 100, 0.35);
-  --color-primary-glow-subtle: rgba(248, 68, 100, 0.15);
-  --gradient-brand: linear-gradient(135deg, #f84464 0%, #d82d4b 100%);
+  --color-primary-glow: rgba(194, 120, 47, 0.22);
+  --color-primary-glow-subtle: rgba(34, 34, 38, 0.08);
+  --gradient-brand: linear-gradient(135deg, #222226 0%, #111113 100%);
 
-  /* Spotlight Amber / Gold */
-  --color-amber: #f59e0b;
-  --color-amber-hover: #d97706;
-  --color-amber-glow: rgba(245, 158, 11, 0.25);
-  --color-amber-soft: rgba(245, 158, 11, 0.15);
+  /* Warm Cognac / Amber */
+  --color-amber: #c2782f;
+  --color-amber-hover: #aa6522;
+  --color-amber-glow: rgba(194, 120, 47, 0.25);
+  --color-amber-soft: rgba(194, 120, 47, 0.12);
 
-  /* Electric Cyan */
-  --color-cyan: #06b6d4;
-  --color-cyan-glow: rgba(6, 182, 212, 0.2);
-  --color-cyan-soft: rgba(6, 182, 212, 0.12);
+  /* Slate Blue */
+  --color-cyan: #607d9b;
+  --color-cyan-glow: rgba(96, 125, 155, 0.25);
+  --color-cyan-soft: rgba(96, 125, 155, 0.12);
 
-  /* Neon Purple */
-  --color-purple: #a855f7;
-  --color-purple-glow: rgba(168, 85, 247, 0.2);
-  --color-purple-soft: rgba(168, 85, 247, 0.12);
+  /* Warm Bronze / Taupe */
+  --color-purple: #8b7355;
+  --color-purple-glow: rgba(139, 115, 85, 0.22);
+  --color-purple-soft: rgba(139, 115, 85, 0.12);
 
-  /* Emerald (Success / Live) */
-  --color-emerald: #10b981;
-  --color-emerald-glow: rgba(16, 185, 129, 0.25);
-  --color-emerald-soft: rgba(16, 185, 129, 0.12);
+  /* Forest Moss Green (Success / Live) */
+  --color-emerald: #3d7a5a;
+  --color-emerald-glow: rgba(61, 122, 90, 0.25);
+  --color-emerald-soft: rgba(61, 122, 90, 0.12);
 
-  /* Destructive / Danger */
-  --color-destructive: #ef4444;
-  --color-destructive-hover: #dc2626;
+  /* Terracotta / Burnt Red (Destructive) */
+  --color-destructive: #b85244;
+  --color-destructive-hover: #9e3f32;
   --color-destructive-foreground: #ffffff;
-  --color-destructive-soft: rgba(239, 68, 68, 0.12);
+  --color-destructive-soft: rgba(184, 82, 68, 0.12);
 
   /* ------------------------------------------------------------------------
-     3. CINEMA MIDNIGHT SURFACES & BACKGROUNDS
+     3. NORDIC WARM SURFACES & BACKGROUNDS
      ------------------------------------------------------------------------ */
-  --color-bg-app: #080c14;
-  --color-bg-surface-1: #0e1524;
-  --color-bg-surface-2: #141e33;
-  --color-bg-surface-3: #1a2642;
-  --color-bg-card: #141e33;
-  --color-bg-card-glass: rgba(20, 30, 51, 0.75);
+  --color-bg-app: #f9f6f0;               /* Warm cream parchment canvas */
+  --color-bg-surface-1: #f3efe6;        /* Subtle warm linen surface */
+  --color-bg-surface-2: #ffffff;        /* Crisp card background */
+  --color-bg-surface-3: #ede7da;        /* Distinct linen container */
+  --color-bg-card: #ffffff;
+  --color-bg-card-glass: rgba(255, 255, 255, 0.92);
 
   /* Semantic UI mappings */
   --background: var(--color-bg-app);
-  --foreground: #f8fafc;
+  --foreground: #18181b;
   --card: var(--color-bg-card);
-  --card-foreground: #f8fafc;
-  --popover: #0e1524;
-  --popover-foreground: #f8fafc;
-  --secondary: #141e33;
-  --secondary-foreground: #e2e8f0;
-  --muted: #101524;
-  --muted-foreground: #94a3b8;
-  --accent: #1a2642;
-  --accent-foreground: #f8fafc;
+  --card-foreground: #18181b;
+  --popover: #ffffff;
+  --popover-foreground: #18181b;
+  --secondary: #f3efe6;
+  --secondary-foreground: #18181b;
+  --muted: #f0eae0;
+  --muted-foreground: #666159;
+  --accent: #ede7da;
+  --accent-foreground: #18181b;
 
   /* ------------------------------------------------------------------------
      4. BORDERS & INPUTS
      ------------------------------------------------------------------------ */
-  --color-border-subtle: #1c273e;
-  --color-border-medium: #263554;
-  --color-border-active: #f84464;
-  --border: var(--color-border-subtle);
-  --input: #1c273e;
-  --ring: rgba(248, 68, 100, 0.5);
+  --color-border-subtle: #eae4d8;
+  --color-border-medium: #d8d0c2;
+  --color-border-active: #222226;
+  --border: var(--color-border-medium);
+  --input: #d8d0c2;
+  --ring: rgba(34, 34, 38, 0.25);
 
   /* ------------------------------------------------------------------------
      5. TYPOGRAPHIC COLOR SCALES
      ------------------------------------------------------------------------ */
-  --color-text-white: #f8fafc;
-  --color-text-heading: #e2e8f0;
-  --color-text-body: #94a3b8;
-  --color-text-muted: #64748b;
+  --color-text-white: #ffffff;
+  --color-text-heading: #18181b;
+  --color-text-body: #403d38;
+  --color-text-muted: #716c64;
 
   /* ------------------------------------------------------------------------
      6. SEAT MATRIX TIERS
      ------------------------------------------------------------------------ */
-  --tier-recliner: #f59e0b;
-  --tier-premium: #a855f7;
-  --tier-regular: #06b6d4;
-  --tier-booked: #ef4444;
+  --tier-recliner: #c2782f;
+  --tier-premium: #8b7355;
+  --tier-regular: #607d9b;
+  --tier-booked: #a39c91;
 
   /* ------------------------------------------------------------------------
      7. RADIUS & SHADOWS
      ------------------------------------------------------------------------ */
-  --radius: 0.75rem;
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
+  --radius: 0.625rem;
+  --radius-sm: calc(var(--radius) - 3px);
+  --radius-md: calc(var(--radius) - 1px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  --shadow-subtle: 0 4px 12px rgba(0, 0, 0, 0.25);
-  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.35);
-  --shadow-popover: 0 16px 36px rgba(0, 0, 0, 0.5);
-  --shadow-glow-crimson: 0 0 24px var(--color-primary-glow);
-  --shadow-glow-amber: 0 0 20px var(--color-amber-glow);
-  --shadow-glow-cyan: 0 0 20px var(--color-cyan-glow);
+  --shadow-subtle: 0 1px 3px rgba(30, 20, 10, 0.05);
+  --shadow-card: 0 3px 12px rgba(30, 20, 10, 0.06);
+  --shadow-popover: 0 12px 36px rgba(30, 20, 10, 0.12);
+  --shadow-glow-crimson: 0 0 18px var(--color-primary-glow);
+  --shadow-glow-amber: 0 0 18px var(--color-amber-glow);
+  --shadow-glow-cyan: 0 0 18px var(--color-cyan-glow);
 }

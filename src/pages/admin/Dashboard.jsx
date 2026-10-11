@@ -96,20 +96,20 @@ export default function Dashboard() {
               header: 'Title',
               cell: (r) => (
                 <div className="flex items-center gap-3">
-                  <Poster src={r.poster} title={r.title} className="h-14 w-10 shrink-0 rounded-md border border-white/10 text-xs" />
+                  <Poster src={r.poster} title={r.title} className="h-14 w-10 shrink-0 rounded-md border border-border text-xs" />
                   <span className="font-medium">{r.title}</span>
                 </div>
               ),
             },
             { key: 'tickets', header: 'Tickets sold', cell: (r) => <span className="tabular-nums">{num(r.tickets)}</span> },
-            { key: 'revenue', header: 'Revenue', cell: (r) => <span className="tabular-nums text-gold">{money(r.revenue)}</span> },
+            { key: 'revenue', header: 'Revenue', cell: (r) => <span className="tabular-nums font-semibold text-amber">{money(r.revenue)}</span> },
             {
               key: 'occupancy',
               header: 'Occupancy',
               className: 'min-w-44',
               cell: (r) => (
                 <div className="flex items-center gap-3">
-                  <Progress value={r.occupancy} className="h-1.5 flex-1 bg-white/10 [&>div]:bg-gradient-to-r [&>div]:from-gold-deep [&>div]:to-gold" />
+                  <Progress value={r.occupancy} className="h-1.5 flex-1 bg-muted [&>div]:bg-amber" />
                   <span className="w-10 text-right text-xs tabular-nums text-muted-foreground">{r.occupancy}%</span>
                 </div>
               ),

@@ -1,12 +1,12 @@
 /**
- * CineShow Design System — Typography Tokens
+ * CineShow Design System — Typography Tokens (Nordic Heritage Arthouse Cinema Theme)
  * Defines font families, sizes, weights, and scale used throughout the application.
  */
 
 export const typography = {
   fonts: {
-    display: "'Righteous', 'Poppins', sans-serif",
-    sans: "'Poppins', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif",
+    display: "'Playfair Display', Georgia, 'Times New Roman', serif",
+    sans: "'Plus Jakarta Sans', 'Poppins', system-ui, -apple-system, sans-serif",
     mono: "'JetBrains Mono', monospace",
   },
   weights: {
