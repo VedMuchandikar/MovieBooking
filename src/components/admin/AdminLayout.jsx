@@ -20,18 +20,18 @@ function Topbar() {
       <button
         type="button"
         onClick={() => setCmdOpen(true)}
-        className="group flex h-10 w-full max-w-md items-center gap-3 rounded-xl border border-white/[0.07] bg-white/[0.03] px-3.5 text-sm text-muted-foreground transition-colors hover:border-gold/30"
+        className="group flex h-10 w-full max-w-md items-center gap-3 rounded-xl border border-white/[0.07] bg-white/[0.03] px-3.5 text-sm text-muted-foreground transition-colors hover:border-primary/40"
       >
-        <Search className="size-4 text-gold/70" />
+        <Search className="size-4 text-primary/80" />
         <span className="flex-1 truncate text-left">Search films, bookings, pages…</span>
         <kbd className="rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 font-sans text-[10px] tracking-wider">{isMac ? '⌘' : 'Ctrl'} K</kbd>
       </button>
       <div className="ml-auto flex items-center gap-3">
         <div className="hidden text-right leading-tight sm:block">
           <p className="text-sm font-medium">Aurelia Voss</p>
-          <p className="label-caps text-[10px] text-gold/70">Administrator</p>
+          <p className="label-caps text-[10px] text-amber">Administrator</p>
         </div>
-        <div className="grid size-10 place-items-center rounded-full border border-gold/30 bg-gradient-to-br from-gold/25 to-transparent font-display text-sm text-gold">AV</div>
+        <div className="grid size-10 place-items-center rounded-full border border-primary/30 bg-gradient-to-br from-primary/20 to-transparent font-display text-sm text-primary">AV</div>
       </div>
     </div>
   )
